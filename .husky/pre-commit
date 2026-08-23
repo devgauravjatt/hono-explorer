@@ -1,4 +1,1 @@
-# ultracite
-#!/bin/sh
-pnpm dlx lint-staged
-# ultracite end
+./node_modules/.bin/nano-staged
