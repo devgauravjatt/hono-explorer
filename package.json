@@ -1,0 +1,43 @@
+{
+  "name": "hono-explorer",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rslib",
+    "check": "biome check --write",
+    "dev": "rslib --watch",
+    "format": "biome format --write",
+    "lint": "biome lint --write",
+    "test": "rstest",
+    "test:watch": "rstest --watch"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10",
+    "@rslib/core": "^0.23.2",
+    "@rstest/adapter-rslib": "^0.11.9",
+    "@rstest/core": "^0.11.9",
+    "@types/node": "^24.13.2",
+    "nano-staged": "^1.0.2",
+    "typescript": "^6.0.3"
+  },
+  "private": true,
+  "nano-staged": {
+    "*.{js,ts}": [
+      "biome format --write .",
+      "biome lint --write ."
+    ]
+  }
+}

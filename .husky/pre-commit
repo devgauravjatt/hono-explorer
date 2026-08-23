@@ -1,0 +1,4 @@
+# ultracite
+#!/bin/sh
+pnpm dlx lint-staged
+# ultracite end
