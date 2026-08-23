@@ -1,7 +1,9 @@
 import { expect, test } from '@rstest/core';
-import { squared } from '../src/index';
+import { createExplorer } from '../src/index.js';
 
-test('squared', () => {
-  expect(squared(2)).toBe(4);
-  expect(squared(12)).toBe(144);
+test('createExplorer', () => {
+  const explorer = createExplorer();
+  expect(explorer).toBeDefined();
+  expect(typeof explorer.tracer).toBe('function');
+  expect(typeof explorer.ui).toBe('function');
 });

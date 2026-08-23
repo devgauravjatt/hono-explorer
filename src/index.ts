@@ -1,1 +1,1 @@
-export const squared = (n: number): number => n * n;
+export { createExplorer, type TraceCtx } from './hono-explorer.js';
