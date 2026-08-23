@@ -46,11 +46,14 @@
   "scripts": {
     "build": "rslib",
     "check": "biome check --write",
-    "dev": "rslib --watch",
+    "dev": "nub watch tests/index.ts",
     "format": "biome format --write",
     "lint": "biome lint --write",
     "test": "rstest",
     "test:watch": "rstest --watch"
+  },
+  "peerDependencies": {
+    "hono": ">=4.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10",
