@@ -20,24 +20,52 @@ GET /api/users/42  200  307.79ms  pattern=/api/users/:id
 ## Install
 
 ```bash
-npm i -D hono-explorer
+pnpm add -D hono-explorer
+# or npm i -D hono-explorer
+# or bun add -d hono-explorer
 ```
 
-`hono >= 4.6` is a peer dependency.
+`hono >= 4.0.0` is a peer dependency.
 
 ## Quick start
 
+Keep your setup clean and organized by defining your explorer instance and types in a separate `explorer.ts` file, then importing it into your main server file.
+
+### 1. Configure Explorer (`explorer.ts`)
+
+```ts
+import { createExplorer, type TraceCtx } from "hono-explorer";
+
+export const explorer = createExplorer({
+  basePath: "/__explorer",
+  max: 200,
+});
+
+export type Env = {
+  Variables: {
+    trace: TraceCtx;
+    userId?: string;
+  };
+};
+```
+
+> **Note:** If you don't need custom variables, you can alternatively use `Hono<ExplorerEnv>` using `type { ExplorerEnv } from "hono-explorer"`.
+
+### 2. Mount in your Hono App (`index.ts`)
+
 ```ts
 import { Hono } from "hono";
-import { createExplorer, type ExplorerEnv } from "hono-explorer";
+import { explorer, type Env } from "./explorer";
 
-const explorer = createExplorer({ basePath: "/__explorer" });
-const app = new Hono<ExplorerEnv>();
+const app = new Hono<Env>();
 
-app.use("*", explorer.tracer()); // must be the first middleware
+// 1. Must be the first middleware registered
+app.use("*", explorer.tracer());
 
+// Your application routes
 app.get("/api/users/:id", getUser);
 
+// 2. Mount the explorer UI (typically for development only)
 if (process.env.NODE_ENV !== "production") {
   app.route("/__explorer", explorer.ui(app));
 }
@@ -53,22 +81,6 @@ Two things matter here:
   Anything registered above it runs outside the trace and won't be recorded.
 - **`ui(app)` needs the same app instance** you registered your routes on —
   that's how it reads `app.routes` to build the routes map.
-
-### Typing `c.var.trace`
-
-`ExplorerEnv` gives you the `trace` variable. If you already have your own
-`Variables`, merge them yourself:
-
-```ts
-import type { TraceCtx } from "hono-explorer";
-
-type Env = {
-  Variables: {
-    trace: TraceCtx;
-    userId: string;
-  };
-};
-```
 
 ## Spans
 
