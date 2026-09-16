@@ -1,4 +1,5 @@
-# hono-explorer
+![Hono Explorer](./hero.png)
+# Hono Explorer
 
 A devtool that lives inside your Hono app. Mount it on a route, open it in a
 browser, and watch requests arrive in real time — with a routes map, full
